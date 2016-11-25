@@ -35,9 +35,14 @@
                                        class="form-password form-control" id="form-password" ng-model="user.pwd">
                             </div>
 
-                            <button type="button" class="btn" ng-click="logAuthObject(user)">Let's go!</button>
+                            <button type="button" class="btn center-block" ng-click="logAuthObject(user)">
+                                Let's go!
+                            </button>
 
-
+                            <div class="jumbotron">
+                                <span class="label label-info">{{user.login}}</span>
+                                <span class="label label-danger">{{user.pwd}}</span>
+                            </div>
                         </form>
                     </div>
                 </div>
