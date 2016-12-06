@@ -1,0 +1,22 @@
+{
+  "name": "SlideOnline",
+  "version": "1.0.0",
+  "description": "AngularJS.",
+  "scripts": {
+    "start": "http-server ./www -s",
+    "serve": "gulp serve",
+    "test": "protractor ./tests/config.js",
+    "lint": "gulp lint",
+    "build": "gulp build",
+    "release": "gulp release"
+  },
+  "private": true,
+  "license": "ISC",
+  "author": "Arie LANCRY + Antoine BOUQUET + Brandon OZIOL",
+  "dependencies": {
+    "angular": "^1.5.5",
+    "angular-route": "^1.5.5",
+    "bootstrap-sass": "^3.3.7",
+    "jquery": "^2.1.3"
+  }
+}

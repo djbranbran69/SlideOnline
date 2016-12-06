@@ -1,22 +1,16 @@
 {
-  "name": "SlideOnline",
+  "name": "tp",
   "version": "1.0.0",
-  "description": "AngularJS.",
+  "description": "TP NodeJS 2016 - Antoine Bouquet",
+  "main": "app.js",
   "scripts": {
-    "start": "http-server ./www -s",
-    "serve": "gulp serve",
-    "test": "protractor ./tests/config.js",
-    "lint": "gulp lint",
-    "build": "gulp build",
-    "release": "gulp release"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "private": true,
+  "author": "Antoine Bouquet",
   "license": "ISC",
-  "author": "Arie LANCRY + Antoine BOUQUET + Brandon OZIOL",
   "dependencies": {
-    "angular": "^1.5.5",
-    "angular-route": "^1.5.5",
-    "bootstrap-sass": "^3.3.7",
-    "jquery": "^2.1.3"
+    "express": "^4.14.0"
   }
 }
