@@ -1,22 +1,68 @@
-var app = require("express")();
+var express = require("express");
+var app = express();
 
-var hhtp = require("http");
+var http = require("http");
 var CONFIG = require("./config.json");
 
-process.env.CONFIG = JSON.stringify(CONFIG);
+process.env.CONFIG = JSON.stringify(CONFIG);
 
-var serveur = http.createServer(app);
+var server = http.createServer(app);
 server.listen(CONFIG.port);
 
 var defaultRoute = require("./app/routes/default.route.js");
 app.use(defaultRoute);
 
-app.get("/", function(request, response){
-	response.send("It works!");
+
+var path = require("path");
+
+var bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+app.use("/", express.static(path.join(__dirname, "public/")));
+app.use("/admin", express.static(path.join(__dirname, "public/admin")));
+app.use("/watch", express.static(path.join(__dirname, "public/watch")));
+
+app.get("/loadPres", function(request, response){
+	var path = require('path');
+	var fs = require('fs');
+	var retour = {};
+
+
+	fs.readdir(CONFIG.presentationDirectory, function(err, data){
+		if(err) return;
+
+		data.forEach(function(filename, index, array){
+			var index_courant = index;
+			var length = array.length;
+
+			fs.readFile(CONFIG.presentationDirectory + "/" + filename, function(err, data) {
+				if(err) throw err;
+				var json = JSON.parse(data.toString());
+				retour[json.id] = data.toString();
+
+				if(index_courant + 1 == length)
+					response.send(retour);
+			});
+		});
+
+	});
+	
 });
 
+app.post("/savePres", function(request, response){
+	var fs = require('fs');
+	console.log(request.body);
+	var json = request.body;
 
-app.use(function(request, response, cb){
-	response.send("It works!");
-	cb();
+	fs.writeFile(CONFIG.presentationDirectory + "/" + json.id + ".pres.json", 
+		request.body, 
+		function(err) {
+    	if(err) {
+        	return console.log(err);
+    	}	
+	}); 
+
+	response.send("Presentation saved!");	
 });
