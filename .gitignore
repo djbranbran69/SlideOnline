@@ -15,3 +15,6 @@ target/
 *.log
 
 npm-debug.log*
+
+.metadata/
+.recommenders/
