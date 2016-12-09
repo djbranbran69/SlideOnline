@@ -7,6 +7,12 @@ import fr.cpe.models.User;
  */
 public interface IUserDao extends IGenericDAO<User> {
 
+    /**
+     * Search a user by login / password
+     * @param login
+     * @param pwd
+     * @return
+     */
     User searchUser(String login, String pwd);
 
 

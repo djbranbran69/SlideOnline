@@ -35,6 +35,9 @@ public class User implements Serializable{
     @Column(name="lastname")
     private String lastname;
 
+    @Column(name="birthday")
+    private String birthday;
+
     public String getLogin() {
         return login;
     }
@@ -58,6 +61,18 @@ public class User implements Serializable{
     }
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     @Override

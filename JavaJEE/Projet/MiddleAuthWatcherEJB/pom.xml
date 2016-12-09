@@ -101,6 +101,19 @@
             <artifactId>arquillian-protocol-servlet</artifactId>
             <scope>test</scope>               
         </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.json</groupId>
+            <artifactId>jboss-json-api_1.0_spec</artifactId>
+            <version>1.0.0.Final</version>
+        </dependency>
+
+        <!-- Import JMS API -->
+        <dependency>
+            <groupId>org.jboss.spec.javax.jms</groupId>
+            <artifactId>jboss-jms-api_2.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
 
     </dependencies>
 
