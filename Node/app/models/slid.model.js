@@ -35,7 +35,6 @@ SlidModel.exist = function(path){
     if(fs.existsSync(path)){
         return true;
     }else{
-        console.log('Le fichier n\'existe pas');
         return false;
     }
 };
@@ -177,15 +176,13 @@ SlidModel.delete = function(id, callback){
 
                     if (data) {
                         try {
-                        console.log('-------- coucou ---------');
-                        console.dir(data);
                         json = JSON.parse(data.toString());
                         } catch(e) {
                             callback("Error file is corrupted : "  + err);
                         }
                     }
                     else {
-                        callback(id + " n'existe pas");
+                        callback(id + " does not extist");
                     }
 
                     fs.unlink(CONFIG.contentDirectory + json.fileName);
@@ -199,7 +196,7 @@ SlidModel.delete = function(id, callback){
             }
         }
 	}
-	else callback("Pas d'id indiqué en paramètre");
+	else callback("No ID");
 };
 
 
