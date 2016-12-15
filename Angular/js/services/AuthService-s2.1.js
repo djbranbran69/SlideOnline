@@ -12,7 +12,9 @@ function authFnc(){
 	};
 
 	function checkUser(userlogin, userpwd){
-		return userMap[userloginl] == userpwd;
+		if(userlogin && userpwd)
+			return userMap[userlogin] == userpwd;
+		else return false;
 	};
 
 	function userList(){
