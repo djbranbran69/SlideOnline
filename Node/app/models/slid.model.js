@@ -1,3 +1,5 @@
+"use strict";
+
 var CONFIG = require("../../config.json");
 process.env.CONFIG = JSON.stringify(CONFIG);
 var fs = require('fs');
@@ -45,10 +47,7 @@ SlidModel.exist = function(path){
  * @param callback
  */
 SlidModel.create = function(slid, callback){
-
-
 	var cpt = 0;
-
 	var retour = function(err){
 		cpt++;
 		if(err) 
