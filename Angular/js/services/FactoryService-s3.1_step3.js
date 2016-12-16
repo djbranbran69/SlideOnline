@@ -34,8 +34,8 @@ function factoryFnc(){
 		slid.txt = txt;
 		slid.content = {};
 		slid.content.title = "content";
-		//slid.content.src = 'http://www.prepa-cpe.fr/IMG/jpg/0-NOS_ATOUTS-RE0909_1294.jpg'
-		slid.content.src= '';
+		slid.content.src = 'http://www.prepa-cpe.fr/IMG/jpg/0-NOS_ATOUTS-RE0909_1294.jpg'
+		//slid.content.src= '';
 
 		return slid;
 	};
