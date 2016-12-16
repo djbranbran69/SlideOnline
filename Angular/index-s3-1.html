@@ -26,35 +26,52 @@
 					 	</div>
 					 </div>
 					 <div class="form-group">
-						 <label for="currentPresTitle">Title</label>
+						 <label for="currentPresTitle">Title Presentation</label>
 						 <input type="text" ng-model="currentPresentation.title" class="form-control"
 						id="currentPresTitle">
+
+						<div ng-repeat="slid in currentPresentation.slides">
+							<div class="form-group" >
+							<h3>{{slid.title}}</h3>
+							 
+
+							<label for="slidDescription">Description Slid : {{slid.txt}}</label>
+							 
+							</div>
+							<div ng-show="slid.content.src != ''">
+								<img ng-src="{{slid.content.src}}" ng-title="{{slid.content.title}}" ng-click="selectCurrentSlid(slid)" style="width: 100%;"/>
+							</div>
+							<div ng-show="slid.content.src == ''">
+							<h2 ng-click="selectCurrentSlid(slid)">NO IMAGE SET</h2>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
 			 
-			<div ng-repeat="slid in currentPresentation.slides">
-				 <!-- ************* CENTER PANEL *************-->
+			
+					 <!-- ************* CENTER PANEL *************-->
 				<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 zeroRef
-				fullScreenHeight" >
-					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 fullScreenHeight">
-						<div class="form-group" >
-						<label for="slidTitle">Title Slid</label>
-						 <input type="text" ng-model="slid.title" class="form-control"
-						id="slidTitle">
+					fullScreenHeight" >
 
-						<label for="slidDescription">Description Slid</label>
-						 <input type="text" ng-model="slid.txt" class="form-control"
-						id="slidDescription">
-						</div>
-						<div ng-show="slid.content.src != ''">
-							<img ng-src="{{slid.content.src}}" ng-title="{{slid.content.title}}" ng-click="selectCurrentSlid(slid)"/>
-						</div>
-						<div ng-show="slid.content.src == ''">
-						<h2>NO IMAGE SET</h2>
-						</div>
+					<div ng-show="currentSlide != undefined">
+
+						<div class="form-group" >
+							<label for="currentSlidTitle">Title Slid</label>
+								 <input type="text" ng-model="currentSlide.title" class="form-control"
+								id="currentSlidTitle">
+							<label for="currentSlidDescription">Description Slid</label>
+								 <input type="text" ng-model="currentSlide.txt" class="form-control"
+								id="currentSlidDescription">
+
+							<div ng-show="currentSlide.content.src != ''">
+								<img ng-src="{{currentSlide.content.src}}" ng-title="{{currentSlide.title}}" style="width: 100%;"/>
+							</div>
+							<div ng-show="currentSlide.content.src == ''">
+								<h2>NO IMAGE SET</h2>
+							</div>
+						</div> 
 					</div>
-				</div> 
+				</div>
 			</div>
 		 </div>
 

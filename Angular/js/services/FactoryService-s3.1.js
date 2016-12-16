@@ -34,8 +34,21 @@ function factoryFnc(){
 		slid.txt = txt;
 		slid.content = {};
 		slid.content.title = "content";
-		//slid.content.src = 'http://www.prepa-cpe.fr/IMG/jpg/0-NOS_ATOUTS-RE0909_1294.jpg'
-		slid.content.src= '';
+
+		var rand = Math.floor((Math.random()*4))
+		if(rand == 0){
+			slid.content.src= '';
+		}
+		else if(rand == 1){
+			slid.content.src = 'http://www.prepa-cpe.fr/IMG/jpg/0-NOS_ATOUTS-RE0909_1294.jpg'
+		}
+		else if(rand == 2){
+			slid.content.src = 'http://www.jeuxetcompagnie.fr/wp-content/uploads/2013/04/jeu-de-cartes.jpg'
+		}
+		else if(rand == 3){
+			slid.content.src = 'http://braindamaged.fr/wp-content/uploads/2014/02/scarlett-johansson-c%C3%A9sar-2014.jpeg'
+		}
+		
 
 		return slid;
 	};
