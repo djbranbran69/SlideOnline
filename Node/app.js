@@ -62,7 +62,7 @@ app.post("/savePres", function(request, response){
 	var json = request.body;
 
 	fs.writeFile(CONFIG.presentationDirectory + json.id + ".pres.json",
-		request.body, 
+		JSON.stringify(request.body), 
 		function(err) {
     	if(err) {
         	return console.log(err);
