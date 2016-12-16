@@ -90,7 +90,7 @@ SlidModel.read = function(id, callback){
             function (err, data) {
                 if (err)
                     callback(err);
-                json = JSON.parse(data.toString());
+                var json = JSON.parse(data.toString());
 
                 var ret = new SlidModel(json);
                 var pathFile = CONFIG.contentDirectory + json.fileName;
@@ -175,16 +175,15 @@ SlidModel.delete = function(id, callback){
 
                     if (data) {
                         try {
-                        json = JSON.parse(data.toString());
+                        var json = JSON.parse(data.toString());
                         } catch(e) {
                             callback("Error file is corrupted : "  + err);
                         }
+                        fs.unlink(CONFIG.contentDirectory + json.fileName);
                     }
                     else {
                         callback(id + " does not extist");
                     }
-
-                    fs.unlink(CONFIG.contentDirectory + json.fileName);
 
                     suite();
                 });
