@@ -12,6 +12,8 @@ server.listen(CONFIG.port);
 var defaultRoute = require("./app/routes/default.route.js");
 app.use(defaultRoute);
 
+var slidRoute = require("./app/routes/slid.route.js");
+app.use(slidRoute);
 
 var path = require("path");
 

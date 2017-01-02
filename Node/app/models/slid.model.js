@@ -4,25 +4,29 @@ var CONFIG = require("../../config.json");
 process.env.CONFIG = JSON.stringify(CONFIG);
 var fs = require('fs');
 
-var SlidModel = function(slid){
-	this.type = slid && slid.type ? slid.type : null;
-	this.id = slid && slid.id ? slid.id : null;
-	this.title = slid && slid.title ? slid.title : null;
-	this.fileName = slid && slid.fileName ? slid.fileName : null;
-	var data = null;
+var SlidModel = function (slid) {
+    this.type = slid && slid.type ? slid.type : null;
+    this.id = slid && slid.id ? slid.id : null;
+    this.title = slid && slid.title ? slid.title : null;
+    this.fileName = slid && slid.fileName ? slid.fileName : null;
+    var data = null;
 
-	this.getData = function(){ return data; };
+    this.getData = function () {
+        return data;
+    };
 
-	this.setData = function(mData){ data = mData; };
+    this.setData = function (mData) {
+        data = mData;
+    };
 
-	this.toJson = function(){
-		return {
-			type: this.type,
-			id: this.id,
-			title: this.title,
-			fileName: this.fileName
-		};
-	};
+    this.toJson = function () {
+        return {
+            type: this.type,
+            id: this.id,
+            title: this.title,
+            fileName: this.fileName
+        };
+    };
 
 
 };
@@ -32,11 +36,11 @@ var SlidModel = function(slid){
  * @param path
  * @returns {boolean}
  */
-SlidModel.exist = function(path){
+SlidModel.exist = function (path) {
 
-    if(fs.existsSync(path)){
+    if (fs.existsSync(path)) {
         return true;
-    }else{
+    } else {
         return false;
     }
 };
@@ -46,32 +50,32 @@ SlidModel.exist = function(path){
  * @param slid
  * @param callback
  */
-SlidModel.create = function(slid, callback){
-	var cpt = 0;
-	var retour = function(err){
-		cpt++;
-		if(err) 
-        	callback(err);
- 		else if(cpt == 2)
-			callback(null);
-	};
+SlidModel.create = function (slid, callback) {
+    var cpt = 0;
+    var retour = function (err) {
+        cpt++;
+        if (err)
+            callback(err);
+        else if (cpt == 2)
+            callback(null);
+    };
 
-	if(slid && slid.fileName && slid.id){
+    if (slid && slid.fileName && slid.id) {
         //Stock content in [slid.fileName]
-        fs.writeFile(CONFIG.contentDirectory +  slid.fileName,
-            JSON.stringify(slid.toJson()),
-            function(err) {
+        fs.writeFile(CONFIG.contentDirectory + slid.fileName,
+            slid.getData(),
+            function (err) {
                 retour(err);
             });
 
         //Stock des métadonnées dans [slid.id].meta.json
-        fs.writeFile(CONFIG.contentDirectory +  slid.id + ".meta.json",
-            JSON.stringify(slid),
-            function(err) {
+        fs.writeFile(CONFIG.contentDirectory + slid.id + ".meta.json",
+            JSON.stringify(slid.toJson()),
+            function (err) {
                 retour(err);
             });
-    }else{
-	    callback('Slid null or parameters is null');
+    } else {
+        callback('Slid null or parameters is null');
     }
 
 };
@@ -81,12 +85,12 @@ SlidModel.create = function(slid, callback){
  * @param id
  * @param callback
  */
-SlidModel.read = function(id, callback){
-	var fs = require('fs');
-    var path = CONFIG.contentDirectory +  id + ".meta.json";
+SlidModel.read = function (id, callback) {
+    var fs = require('fs');
+    var path = CONFIG.contentDirectory + id + ".meta.json";
     if (this.exist(path)) {
         //Lecture des metadonnées du slide d'identifiant [id]
-        fs.readFile(path , 'utf8',
+        fs.readFile(path, 'utf8',
             function (err, data) {
                 if (err)
                     callback(err);
@@ -106,8 +110,8 @@ SlidModel.read = function(id, callback){
 
                         callback(null, ret);
                     });
-                }else{
-                    callback(pathFile+' does not exist.');
+                } else {
+                    callback(pathFile + ' does not exist.');
                 }
             });
     }
@@ -118,38 +122,38 @@ SlidModel.read = function(id, callback){
  * @param slid
  * @param callback
  */
-SlidModel.update = function(slid, callback){
+SlidModel.update = function (slid, callback) {
 
-	var cpt = 0;
+    var cpt = 0;
 
-	var path = CONFIG.contentDirectory + slid.id + ".meta.json";
+    var path = CONFIG.contentDirectory + slid.id + ".meta.json";
     var pathFile = CONFIG.contentDirectory + slid.id + ".txt";
-    if(this.exist(path) && this.exist(pathFile)){
+    if (this.exist(path) && this.exist(pathFile)) {
 
-        fs.writeFile(path, JSON.stringify(slid.toJson()), function(err){
-            if(err){
+        fs.writeFile(path, JSON.stringify(slid.toJson()), function (err) {
+            if (err) {
                 callback(err);
-            }else{
-                if(slid.getData() && slid.getData().length > 0){
+            } else {
+                if (slid.getData() && slid.getData().length > 0) {
                     //Stockage des metadonnees dans [slid.id].meta.json
                     fs.writeFile(pathFile,
                         slid,
-                        function(err) {
-                            if (err){
+                        function (err) {
+                            if (err) {
                                 callback(err);
-                            }else{
+                            } else {
                                 callback();
                             }
                         });
 
-                }else{
+                } else {
                     callback();
                 }
             }
         });
 
 
-	}else {
+    } else {
         callback('L\'un ou les 2 fichiers est inexistant');
     }
 
@@ -161,28 +165,28 @@ SlidModel.update = function(slid, callback){
  * @param id
  * @param callback
  */
-SlidModel.delete = function(id, callback){
-	var fs = require('fs');
-	if(id){
-	    var path = CONFIG.contentDirectory + id + ".meta.json";
+SlidModel.delete = function (id, callback) {
+    var fs = require('fs');
+    if (id) {
+        var path = CONFIG.contentDirectory + id + ".meta.json";
         if (this.exist(path)) {
             //Lecture des metadonnées du slide d'identifiant [id]
-            fs.readFile(path , 'utf8',
+            fs.readFile(path, 'utf8',
                 function (err, data) {
-                    if (err){
+                    if (err) {
                         callback(err);
                     }
 
                     if (data) {
                         try {
-                        var json = JSON.parse(data.toString());
-                        } catch(e) {
-                            callback("Error file is corrupted : "  + err);
+                            var json = JSON.parse(data.toString());
+                        } catch (e) {
+                            callback("Error file is corrupted : " + err);
                         }
                         fs.unlink(CONFIG.contentDirectory + json.fileName);
                     }
                     else {
-                        callback(id + " does not extist");
+                        callback(id + " does not exist");
                     }
 
                     suite();
@@ -193,10 +197,9 @@ SlidModel.delete = function(id, callback){
                 callback(null);
             }
         }
-	}
-	else callback("No ID");
+    }
+    else callback("No ID");
 };
-
 
 
 module.exports = SlidModel;

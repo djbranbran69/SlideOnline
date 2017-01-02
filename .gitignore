@@ -18,3 +18,8 @@ npm-debug.log*
 
 .metadata/
 .recommenders/
+
+Node/tmp/
+Node/tmp
+Node/tmp/*
+
