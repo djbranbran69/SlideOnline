@@ -1,14 +1,14 @@
 {
   "name": "tp",
   "version": "1.0.0",
-  "description": "TP NodeJS 2016 - Antoine Bouquet",
+  "description": "TP NodeJS 2016",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
   "private": true,
-  "author": "Antoine Bouquet",
+  "author": "Antoine Bouquet, Brandon Oziol, Arié Lancry",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.2",

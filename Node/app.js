@@ -24,6 +24,9 @@ app.use("/", express.static(path.join(__dirname, "public/")));
 app.use("/admin", express.static(path.join(__dirname, "public/admin")));
 app.use("/watch", express.static(path.join(__dirname, "public/watch")));
 
+/**
+ * Load Presentation
+ */
 app.get("/loadPres", function(request, response){
 	var path = require('path');
 	var fs = require('fs');
@@ -37,7 +40,7 @@ app.get("/loadPres", function(request, response){
 			var index_courant = index;
 			var length = array.length;
 
-			fs.readFile(CONFIG.presentationDirectory + "/" + filename, function(err, data) {
+			fs.readFile(CONFIG.presentationDirectory + filename, function(err, data) {
 				if(err) throw err;
 				var json = JSON.parse(data.toString());
 				retour[json.id] = data.toString();
@@ -51,13 +54,15 @@ app.get("/loadPres", function(request, response){
 	
 });
 
+/**
+ * Save Presentation
+ */
 app.post("/savePres", function(request, response){
 	var fs = require('fs');
-	console.log(request.body);
 	var json = request.body;
 
-	fs.writeFile(CONFIG.presentationDirectory + "/" + json.id + ".pres.json", 
-		request.body, 
+	fs.writeFile(CONFIG.presentationDirectory + json.id + ".pres.json",
+		JSON.stringify(request.body), 
 		function(err) {
     	if(err) {
         	return console.log(err);

@@ -26,7 +26,7 @@ this.fileExists = function(path, callback) {
 			}
 		}
 	});
-}
+};
 
 this.readFileIfExists = function(path, callback) {
 	this.fileExists(path, function(err) {
@@ -36,19 +36,19 @@ this.readFileIfExists = function(path, callback) {
 			fs.readFile(path, callback);
 		}
 	});
-}
+};
 
 this.getMetaFilePath = function(id) {
 	return path.join(CONFIG.contentDirectory, id + ".meta.json");
-}
+};
 
 this.getDataFilePath = function(fileName) {
 	return path.join(CONFIG.contentDirectory, fileName);
-}
+};
 
 this.getNewFileName = function(id, originalFileName) {
 	return id + '.' + originalFileName.split('.').pop();
-}
+};
 
 this.getFileType = function(fileType) {
 	if (fileType.match("image/*")) {
