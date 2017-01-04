@@ -100,7 +100,12 @@ SlidController.create = function (source, name, type, callback) {
             slid.setData(content);
             SlidModel.create(slid, function (err) {
                 if (err) callback(err);
-                else callback(null);
+                else {
+                    callback(null);
+                    fs.unlink(source, function (err) {
+                        return;
+                    });
+                }
             });
         }
     });
@@ -109,7 +114,7 @@ SlidController.create = function (source, name, type, callback) {
 SlidController.read = function (id, callback, json) {
     if (typeof json == "undefined")
         json = false;
-    
+
     if (!fs.existsSync(CONFIG.contentDirectory + id + ".meta.json"))
         callback("Le fichier d'ID " + id + " n'existe pas");
     else {
