@@ -30,16 +30,7 @@ function initEvenements() {
     });
 
     client.on('slidEvent', function (presentation_json) {
-        var commande = presentation_json.CMD;
-        var id = presentation_json.PRES_ID;
-
-        var SlidModel = require("../models/slid.model");
-        SlidModel.read(id, function (err, slid) {
-            if (err == null) {
-                slid.src = "/slid/" + slid.id;
-                io.sockets.emit('slidEvent', slid);
-            }
-        });
+        io.sockets.emit('slidEvent', presentation_json);
     });
 }
 

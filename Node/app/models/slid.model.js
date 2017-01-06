@@ -103,8 +103,9 @@ SlidModel.read = function (id, callback) {
                         if (err)
                             callback(err);
 
-                        if (data)
-                            ret.setData(data.toString());
+                        if (data) {
+                            ret.setData(data.toString('base64'));
+                        }
                         else
                             callback(json.fileName + " does not exist.");
 

@@ -8,6 +8,7 @@ process.env.CONFIG = JSON.stringify(CONFIG);
 
 var server = http.createServer(app);
 server.listen(CONFIG.port);
+
 var IOController = require("./app/controllers/io.controller.js");
 IOController.listen(server);
 
@@ -23,6 +24,7 @@ var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+app.use(bodyParser.json());
 
 app.use("/", express.static(path.join(__dirname, "public/")));
 app.use("/admin", express.static(path.join(__dirname, "public/admin")));
@@ -56,6 +58,36 @@ app.get("/loadPres", function (request, response) {
 
     });
 
+});
+
+/**
+ * Load Images
+ */
+app.get("/loadImages", function (request, response) {
+    var SlidController = require('./app/controllers/slid.controller.js');
+
+    var retour = {};
+
+    SlidController.list(function (err, json) {
+        if (err) response.send(err);
+        else {
+            var index_courant = 0;
+            for (var index = 0; index < json.length; index++) {
+                SlidController.read(json[index].key, function (err, data) {
+                    if (err) response.send(err);
+                    else {
+                        var key = json[index_courant].key;
+                        retour[key] = {json: json[index_courant].value, src: data};
+
+                        if (index_courant + 1 == json.length) {
+                            response.send(retour);
+                        }
+                    }
+                    index_courant++;
+                });
+            }
+        }
+    });
 });
 
 /**

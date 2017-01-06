@@ -49,7 +49,7 @@ SlidController.list = function (callback) {
                                     slid.setData(content.toString());
                                     obj.push({key: slid.id, value: slid});
 
-                                    if (++read == new_array.length - 1)
+                                    if (++read == new_array.length)
                                         callback(null, obj);
                                 }
                             });
@@ -127,7 +127,7 @@ SlidController.read = function (id, callback, json) {
                 else {
                     fs.readFile(CONFIG.contentDirectory + contentJson.fileName, function (err, content) {
                         if (err) callback(err);
-                        else callback(null, content.toString());
+                        else callback(null, content.toString('base64'));
                     })
                 }
             }

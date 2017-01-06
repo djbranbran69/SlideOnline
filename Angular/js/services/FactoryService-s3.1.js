@@ -1,73 +1,82 @@
 var contentType={}
-contentType.IMG_URL="IMG_URL";
-contentType.IMG_B64="IMG_B64";
+    contentType.IMG_URL="IMG_URL";
+    contentType.IMG_B64="IMG_B64";
+    contentType.URL="URL";
+    contentType.VIDEO_YOUTUBE="VIDEO_YOUTUBE";
+    contentType.VIDEO_CUSTOM="VIDEO_CUSTOM";
 
-angular.module('factoryServices', []).factory('factory', factoryFnc);
+
+angular.module('factoryServices', []).factory('factory',factoryFnc);
 
 function factoryFnc(){
-	var factory = {
-		generateUUID: generateUUID,
-		contentCreation: contentCreation,
-		slidCreation: slidCreation,
-		presentationCreation: presentationCreation,
-		mapToArray: mapToArray
-	};
-
-	function generateUUID(){
-		var d = new Date().getTime();
-		var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, 
-			function(c) {
-				var r = (d + Math.random()*16)%16 | 0;
-				d = Math.floor(d/16);
-				return (c=='x' ? r : (r&0x3|0x8)).toString(16);
-		});
-		return uuid;
-	};
-
-	function contentCreation(title, type, src){
-
-	};
-
-	function slidCreation(title, txt){
-		var slid = {}
-		slid.title = title;
-		slid.txt = txt;
-		slid.content = {};
-		slid.content.title = "content";
-
-		var rand = Math.floor((Math.random()*4))
-		if(rand == 0){
-			slid.content.src= '';
-		}
-		else if(rand == 1){
-			slid.content.src = 'http://www.prepa-cpe.fr/IMG/jpg/0-NOS_ATOUTS-RE0909_1294.jpg'
-		}
-		else if(rand == 2){
-			slid.content.src = 'http://www.jeuxetcompagnie.fr/wp-content/uploads/2013/04/jeu-de-cartes.jpg'
-		}
-		else if(rand == 3){
-			slid.content.src = 'http://braindamaged.fr/wp-content/uploads/2014/02/scarlett-johansson-c%C3%A9sar-2014.jpeg'
-		}
-		
-
-		return slid;
-	};
-
-	function presentationCreation(title, description){
-		var obj = {}
-		obj.title = title;
-		obj.description = description;
-
-		return obj;
-	}
-
-	function mapToArray(map){
-		contentArray = [];
-		for(key in map){
-			contentArray.push(map[key]);
-		}
-		return contentArray;
-	}
-
-	return factory;
-}
+     var factory = {
+        generateUUID:       generateUUID,
+         contentCreation:   contentCreation,
+         slidCreation:      slidCreation,
+         presentationCreation: presentationCreation,
+         mapToArray:        mapToArray
+         
+     };
+    
+    
+    //*********************************************//
+    //************** INTERNAL TOOLS  **************//
+    //*********************************************//
+    
+    // http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+    function generateUUID(){
+        var d = new Date().getTime();
+        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c)      {
+            var r = (d + Math.random()*16)%16 | 0;
+            d = Math.floor(d/16);
+            return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+        });
+        return uuid;
+     };
+    
+    
+    //*********************************************//
+    //************ FACTORY FUNCTIONS  *************//
+    //*********************************************//
+     
+     function contentCreation(title,type,src){
+        var content={};
+        content.id=generateUUID();
+        content.title=title;
+        content.src=src;
+        content.type=type;
+        return content;
+     };
+    
+    
+     function slidCreation(title,txt){
+        var slid={};
+        slid.id=generateUUID();
+        slid.title=title;
+        slid.txt=txt;
+        slid.contentMap={};
+        return slid;
+     };
+    
+    
+     function presentationCreation(title,description){
+        var presentation={};
+        presentation.id=generateUUID();
+        presentation.title=title;
+        presentation.description=description;
+        presentation.slidArray=[];
+        return presentation;
+     };
+   
+    
+    function mapToArray(map){
+        contentArray=[];
+        for(key in map){
+            contentArray.push(map[key]);
+        }
+        return contentArray;
+    };
+    
+   return factory;
+};
+    

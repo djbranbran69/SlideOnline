@@ -1,49 +1,120 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="loginApp" ng-controller="loginCtrl">
+<html lang="en" ng-app="adminApp" ng-controller="eventCtrl">
 <head>
-    <title>Watcher Login</title>
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="lib/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/js.css" rel="stylesheet">
+
 </head>
-
 <body>
-<div class="top-content">
-    <div class="inner-bg">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3 form-box">
-                    <div class="form-top">
-                        <div class="form-top-left">
-                            <h3>Login to our site</h3>
 
-                            <p>Enter your username and password to log on:</p>
-                        </div>
-                        <div class="form-top-right">
-                            <i class="fa fa-key"></i>
-                        </div>
-                    </div>
-                    <div class="form-bottom">
-                        <form role="form" acton="" method="post" class="login-form">
-                            <div class="form-group">
-                                <label class="sr-only" for="form-username">Username</label>
-                                <input type="text" name="form-username" placeholder="Username..."
-                                       class="form-username form-control" id="form-username" ng-model="user.login">
-                            </div>
-                            <div class="form-group">
-                                <label class="sr-only" for="form-password">Password</label>
-                                <input type="password" name="form-password" placeholder="Password..."
-                                       class="form-password form-control" id="form-password" ng-model="user.pwd">
-                            </div>
+<div class="container-fluid fullScreenHeight zeroRef">
+    <div class="row container-fluid fullScreenHeight ">
 
-                            <button type="button" class="btn center-block" ng-click="logAuthObject(user)">
-                                Let's go!
-                            </button>
+        <!-- *************   LEFT PANEL  *************-->
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 zeroRef fullScreenHeight divOverflow">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-edit"
+                                                                        aria-hidden="true"></span></button>
+                </div>
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default" ng-click="savePres()"><span
+                            class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>
+                    <button type="button" class="btn btn-default" ng-click="newSlide()"><span
+                            class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove"
+                                                                        aria-hidden="true"></span></button>
 
-                            <div class="jumbotron">
-                                <span class="label label-info">{{user.login}}</span>
-                                <span class="label label-danger">{{user.pwd}}</span>
-                            </div>
-                        </form>
+                </div>
+                <div class="form-group">
+                    <label for="currentPresTitle">Title</label>
+                    <input type="text" ng-model="currentPresenation.title" class="form-control" id="currentPresTitle">
+                </div>
+
+            </div>
+            <div ng-repeat="slid in currentPresenation.slidArray" class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+                 ng-click="selectCurrentSlid(slid)">
+                <h4>{{slid.title}}</h4>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 slidZoneEmpty"
+                     ng-class="{'slidZoneSelectedEmpty': slid.id == currentSlide.id, 'hide':slid.contentMap[1]!=undefined}">
+                    Slid Zone
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 slidZone"
+                     ng-class="{'slidZoneSelected': slid.id == currentSlide.id, 'hide':slid.contentMap[1]==undefined}">
+                    <img ng-src="data:image/png;base64, {{contentMap.payload[slid.contentMap[1]].src}}"
+                         alt="{{contentMap.payload[slid.contentMap[1]].title}}" class="img-responsive">
+                </div>
+            </div>
+        </div>
+        <!-- *************   CENTER PANEL  *************-->
+        <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 zeroRef fullScreenHeight">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+                <div class="btn-group" role="group" aria-label="..." ng-controller="playerCtrl">
+                    <button type="button" class="btn btn-default" ng-click="presBegin()"><span
+                            class="glyphicon glyphicon-step-backward"
+                            aria-hidden="true"></span></button>
+                    <button type="button" class="btn btn-default" ng-click="presPrev()"><span
+                            class="glyphicon glyphicon-backward"
+                            aria-hidden="true"></span></button>
+                    <button type="button" class="btn btn-default" ng-click="presStart()"><span
+                            class="glyphicon glyphicon-play"
+                            aria-hidden="true"></span></button>
+                    <button type="button" class="btn btn-default" ng-click="presPause()"><span
+                            class="glyphicon glyphicon-pause"
+                            aria-hidden="true"></span></button>
+                    <button type="button" class="btn btn-default" ng-click="presNext()"><span
+                            class="glyphicon glyphicon-forward"
+                            aria-hidden="true"></span></button>
+                    <button type="button" class="btn btn-default" ng-click="presEnd()"><span
+                            class="glyphicon glyphicon-step-forward"
+                            aria-hidden="true"></span></button>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 fullScreenHeight">
+                <div class="form-group">
+                    <label for="currentSlideTitle">Title</label>
+                    <input type="text" ng-model="currentSlide.title" class="form-control" id="currentSlideTitle">
+                    <label for="currentSlideText">Text</label>
+                    <textarea rows="5" type="text" ng-model="currentSlide.txt" class="form-control"
+                              id="currentSlideText"></textarea>
+                </div>
+                <div ng-drop="true" ng-drop-success="onDropComplete($data,$event)"
+                     style="min-height: 100px;min-width: 100px;">
+                    <img ng-src="data:image/png;base64, {{contentMap.payload[currentSlide.contentMap[1]].src}}"
+                         alt="{{contentMap.payload[currentSlide.contentMap[1]].title}}" class="img-responsive">
+                </div>
+            </div>
+
+        </div>
+        <!-- *************   RIGHT PANEL  *************-->
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 divOverflow">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for..." ng-model="searchContent.title">
+                <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"
+                                                                            aria-hidden="true"></span></button>
+                </span>
+                </div>
+
+            </div>
+            <div id="dropZone" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div ng-include="'pages/DropZoneArea.html'">
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 contentBlock"
+                     ng-repeat="content in contentMap.array | filter:searchContent | orderBy: 'title'">
+                    <input type="text" ng-model="content.title" class="form-control" id="currentContentTitle">
+                    <div ng-drag="true" ng-drag-data="content" ng-drag-success="onDragComplete($data,$event)">
+                        <img ng-src="data:image/png;base64, {{content.src}}" alt="{{content.title}}"
+                             class="img-thumbnail">
                     </div>
                 </div>
             </div>
@@ -51,11 +122,26 @@
     </div>
 </div>
 
-<script src="lib/jquery-3.1.1.min.js"></script>
-<script src="lib/bootstrap.min.js"></script>
-<script src="lib/angular.min.js"></script>
-<script src="js/services/AuthService-s2.2.js"></script>
-<script src="js/application/LoginApp-s1.2.js"></script>
-<script src="js/controllers/LoginController-s2.2.js"></script>
+<script src="lib/js/jquery-1.11.3.min.js"></script>
+<script src="lib/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+<script src="lib/js/dropzone.js"></script>
+<script src="lib/js/socket.io.js"></script>
+
+
+<!-- ANGULAR -->
+<script src="lib/js/angular.min.js"></script>
+<script src="lib/ngDraggable-master/ngDraggable.js"></script>
+
+
+<script src="js/services/FactoryService-s3.1.js"></script>
+<script src="js/services/CommService3.3.js"></script>
+<script src="js/application/AdminApp-s3.3.js"></script>
+
+<script src="js/controllers/EventController-s3.3.js"></script>
+<script src="js/controllers/PlayerController-s3.3.js"></script>
+<script src="js/controllers/DropZoneController.js"></script>
+
+
+<!--  <script type="text/javascript" src="/socket.io/socket.io.js"></script>-->
 </body>
 </html>
