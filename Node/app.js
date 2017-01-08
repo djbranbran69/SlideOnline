@@ -72,8 +72,9 @@ app.get("/loadImages", function (request, response) {
         if (err) response.send(err);
         else {
             var index_courant = 0;
-            for (var index = 0; index < json.length; index++) {
-                SlidController.read(json[index].key, function (err, data) {
+
+            var boucle = function () {
+                SlidController.read(json[index_courant].key, function (err, data) {
                     if (err) response.send(err);
                     else {
                         var key = json[index_courant].key;
@@ -84,8 +85,12 @@ app.get("/loadImages", function (request, response) {
                         }
                     }
                     index_courant++;
+
+                    if (index_courant < json.length) boucle();
                 });
             }
+
+            boucle();
         }
     });
 });

@@ -18,6 +18,7 @@ function eventCrtFnt($scope, $log, $window, factory, comm) {
     var available_content = comm.loadImages('test', 'test');
     available_content.then(
         function (payload) {
+            $log.error(payload);
             $scope.contentMap.payload = payload;
             $scope.contentMap.array = factory.mapToArray(payload);
         },
